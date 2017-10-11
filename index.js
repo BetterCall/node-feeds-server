@@ -66,6 +66,7 @@ function getUser( media , id ) {
 	socialRef.once('value').then(function(snapshot) {
 		// get snapshot key
 		var userId = Object.keys(snapshot.val())[0];
+		sendNotification(userId) 
 		// Current user database reference
 		var currentUserRef = firebase.database().ref().child('users').child(userId)
 		currentUserRef.once('value').then(function (snapshot){
