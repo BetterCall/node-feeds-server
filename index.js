@@ -1,10 +1,21 @@
 'use strict';
 
+
+var firebase = require('firebase').initialiazeApp({
+	serviceAccount : "./firebaseService.json" , 
+	databaseURL : "https://feed-72bdb.firebaseio.com" 
+});
+
 const bodyParser = require('body-parser')
 const config = require('config')
 const express = require('express')
 const http = require('http')
 const request = require('request')
+
+var ref = firebase.database().ref()
+var notificationRef = firebase.database().ref().child('notification')
+var testRef = firebase.database().ref().child('test')
+
 
 var app = express();
 
@@ -23,6 +34,15 @@ app.get('/FACEBOOKAPI', function(req, res) {
     res.sendStatus(403);
   }
 });
+
+app.post('/FACEBOOKAPI', function(req , res) {
+
+	var value = req.body.entry[0]
+	testRef.push(value) 
+
+
+});
+
 
 app.get('/test', function(req, res) {
 	console.log('test') 
