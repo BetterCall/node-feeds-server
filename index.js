@@ -37,10 +37,12 @@ app.get('/FACEBOOKAPI', function(req, res) {
 
 app.post('/FACEBOOKAPI', function(req , res) {
 
-	var value = req.body.entry[0]
-	testRef.push(value)
+	var data = req.body.entry[0]
+	testRef.push(data)
 
-	res.sendStatus(200) ;
+	getUser("facebook" , data.uid)
+
+	res.sendStatus(200)
 
 
 });
