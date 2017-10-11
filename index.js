@@ -11,7 +11,7 @@ var app = express();
 app.set('port', process.env.PORT || 5555);
 app.use(bodyParser.json())
 
-const VALIDATION_TOKEN = "insérez ici un string quelconque"
+const VALIDATION_TOKEN = "FACEBOOKAPI"
 
 app.get('/FACEBOOKAPI', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
