@@ -41,7 +41,6 @@ app.post('/FACEBOOKAPI', function(req , res) {
 	testRef.push(value)
 
 	res.sendStatus(200) ;
-	
 
 
 });
@@ -55,3 +54,38 @@ app.get('/test', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('Bot is running on port ', app.get('port'));
 });
+
+
+function getUser( media , id ) {
+
+	// Social database reference
+	var socialRef = firebase.database().ref().child('social').child(media).child(id) 
+	// Get user feeds id with media id 
+	socialRef.once('value').then(function(snapshot) {
+		// get snapshot key
+		var userId = Object.keys(snapshot.val())[0];
+		// Current user database reference
+		var currentUserRef = firebase.database().ref().child('users').child(userId)
+		currentUserRef.once('value').then(function (snapshot){
+			testRef.push(snapshot.val())
+		});
+
+	});
+
+} 
+
+
+function createNotification(data , media) {
+
+	
+
+
+
+}
+
+
+
+
+
+
+
