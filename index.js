@@ -23,7 +23,7 @@ var userPostRef			= firebase.database().ref().child('user_post')
 var socialRef 			= firebase.database().ref().child('social') 
 var userFollowersRef	= firebase.database().ref().child('followers')
 
-var activitiesRef 	= firebase.database().ref().child('activities')
+var activitiesRef 	    = firebase.database().ref().child('activities')
 var testRef 			= firebase.database().ref().child('test')
 
 
@@ -112,6 +112,7 @@ function shareWithFollower(feedsUserId, newsKey , notificationKey) {
 			activitiesRef.child(followerId).child(notificationKey).set(true) 
 			
 		});
+	}
 
 }
 
