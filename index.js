@@ -1,17 +1,17 @@
 'use strict';
 
-const bodyParser = require('body-parser'),
-const config = require('config'),
-const express = require('express'),
-const http = require('http'),
-const request = require('request');
+const bodyParser = require('body-parser')
+const config = require('config')
+const express = require('express')
+const http = require('http')
+const request = require('request')
 
 var app = express();
 
 app.set('port', process.env.PORT || 5555);
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
-const VALIDATION_TOKEN = "insérez ici un string quelconque";
+const VALIDATION_TOKEN = "insérez ici un string quelconque"
 
 app.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
@@ -19,7 +19,7 @@ app.get('/webhook', function(req, res) {
     console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
-    console.error("Failed validation. Make sure the validation tokens match.");
+    console.error("Failed validation. Make sure the validation tokens match.")
     res.sendStatus(403);
   }
 });
