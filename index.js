@@ -51,12 +51,12 @@ app.get('/FACEBOOKAPI', function(req, res) {
 app.post('/FACEBOOKAPI', function(req , res) {
 
 	var data = req.body.entry[0]
-	testRef.push(data)
+	testRef.push(data.change[0].field)
 
 	let subscription = data.field
-	console.log(data.id)
+	console.log(data.uid)
 	// get feeds user id 
-	var feedsUserId = getUser("facebook" , data.id)
+	var feedsUserId = getUser("facebook" , data.uid)
 	// create news from facebook data
 	var postKey = createNews(feedsUserId , "facebook" , subscription) 
 	// create notification from facebook data
@@ -143,6 +143,7 @@ function sendNotification(userId) {
 }
 
 function createNews(userId , media , subscription ) {
+
 	var data = {
 		userid : userId , 
 		media : media , 
