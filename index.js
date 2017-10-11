@@ -101,8 +101,10 @@ function getUser( media , id ) {
 
 
 function shareWithFollower(feedsUserId, newsKey , notificationKey) {
+
 	// get followers user list 
 	var userFollowersRef = followersRef.child(userId)
+	
 	userFollowersRef.once('value').then(function(snapshot) {
 		// Followers id list
 		var followersId = Object.keys(snapshot.val());
@@ -111,8 +113,8 @@ function shareWithFollower(feedsUserId, newsKey , notificationKey) {
 			feedRef.child(followerId).child(newsKey).set(true)
 			activitiesRef.child(followerId).child(notificationKey).set(true) 
 			
-		});
-	});
+		})
+	})
 
 }
 
