@@ -87,7 +87,7 @@ function sendNotification(userId) {
 		// foreach follower create notification
 		followersId.forEach(function(followerId) {
 			var postData = {
-				from: data.uid,
+				from: userId,
 				media: 'facebook',
 				type: 'feed',
 				objectId: '-Kw5iOWPcNtuDV9HL8KZ',
