@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 
 const VALIDATION_TOKEN = "insérez ici un string quelconque"
 
-app.get('/webhook', function(req, res) {
+app.get('/FACEBOOKAPI', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
     console.log("Validating webhook");
