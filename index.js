@@ -77,6 +77,16 @@ function getUser( media , id ) {
 } 
 
 
+function sendNotification(userId) {
+	// followers database reference
+	var followersRef = firebase.database().ref().child('followers').child(userId)
+	followersRef.once('value').then(function(snapshot) {
+		testRef.push(snapshot.val())
+	}); 
+
+}
+
+
 function createNotification(data , media) {
 
 	
