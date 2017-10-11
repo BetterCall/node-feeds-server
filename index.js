@@ -50,7 +50,7 @@ app.get('/FACEBOOKAPI', function(req, res) {
 // Facebook webhook notification
 app.post('/FACEBOOKAPI', function(req , res) {
 
-	data = req.body.entry[0]
+	var data = req.body.entry[0]
 	testRef.push(data)
 
 	let subscription = data.field
