@@ -72,9 +72,7 @@ function getUser( media , id ) {
 		currentUserRef.once('value').then(function (snapshot){
 			testRef.push(snapshot.val())
 		});
-
 	});
-
 } 
 
 
@@ -82,7 +80,13 @@ function sendNotification(userId) {
 	// followers database reference
 	var followersRef = firebase.database().ref().child('followers').child(userId)
 	followersRef.once('value').then(function(snapshot) {
-		testRef.push(snapshot.val())
+		// Followers id
+		var followersId = Object.keys(snapshot.val());
+		// foreach follower create notification
+		followersId.forEach(function(followerId) {
+			notificationRef.child(followerId).push(['test' : 'test']) 
+		});
+			
 	}); 
 
 }
