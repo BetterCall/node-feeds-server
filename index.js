@@ -104,7 +104,7 @@ function shareWithFollower(feedsUserId, newsKey , notificationKey) {
 
 	// get followers user list 
 	var userFollowersRef = followersRef.child(userId)
-	
+
 	userFollowersRef.once('value').then(function(snapshot) {
 		// Followers id list
 		var followersId = Object.keys(snapshot.val());
@@ -150,9 +150,7 @@ function createNews(userId , media , subscription ) {
 	}
 
 	var key = postsRef.push(data)
-	userPostRef.child(userId).push({
-			key.key : true 
-		})
+	userPostRef.child(userId).child(key.key).set(true)
 	return key.key
 }
 
