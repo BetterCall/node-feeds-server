@@ -112,7 +112,7 @@ function shareWithFollower(feedsUserId, newsKey , notificationKey) {
 			activitiesRef.child(followerId).child(notificationKey).set(true) 
 			
 		});
-	}
+	});
 
 }
 
