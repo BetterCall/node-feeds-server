@@ -6,17 +6,25 @@ var firebase = require('firebase').initializeApp({
 	databaseURL : "https://feed-72bdb.firebaseio.com" 
 });
 
-const bodyParser = require('body-parser')
-const config = require('config')
-const express = require('express')
-const http = require('http')
-const request = require('request')
+const bodyParser 	= require('body-parser')
+const config 		= require('config')
+const express		= require('express')
+const http 			= require('http')
+const request 		= require('request')
 
-var ref = firebase.database().ref()
-var notificationRef = firebase.database().ref().child('notification')
-var testRef = firebase.database().ref().child('test')
+// Database References
+var ref 				= firebase.database().ref()
+var feedRef				= firebase.database().ref().child('feed')
 
-var data
+var usersRef 			= firebase.database().ref().child('users')
+var postsRef 			= firebase.database().ref().child('posts')
+var userPostRef			= firebase.database().ref().child('user_post')
+
+var socialRef 			= firebase.database().ref().child('social') 
+var userFollowersRef	= firebase.database().ref().child('followers')
+
+var activitiesRef 	= firebase.database().ref().child('activities')
+var testRef 			= firebase.database().ref().child('test')
 
 
 var app = express();
@@ -26,6 +34,7 @@ app.use(bodyParser.json())
 
 const VALIDATION_TOKEN = "FACEBOOKAPI"
 
+// Confirmation route 
 app.get('/FACEBOOKAPI', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
@@ -37,12 +46,23 @@ app.get('/FACEBOOKAPI', function(req, res) {
   }
 });
 
+
+// Facebook webhook notification
 app.post('/FACEBOOKAPI', function(req , res) {
 
 	data = req.body.entry[0]
 	testRef.push(data)
 
-	getUser("facebook" , data.uid)
+	let subscription = data.field
+
+	// get feeds user id 
+	var feedsUserId = getUser("facebook" , data.uid)
+	// create news from facebook data
+	var postKey = createNews(feedsUserId , "facebook" , subscription) 
+	// create notification from facebook data
+	var activityKey  = createNotification(userId , "facebook", postKey) 
+	// share news + push notification 
+	shareWithFollower(feedsUserId, postKey , activityKey)
 
 	res.sendStatus(200)
 
@@ -50,11 +70,7 @@ app.post('/FACEBOOKAPI', function(req , res) {
 });
 
 
-app.get('/test', function(req, res) {
-	console.log('test') 
-	res.sendStatus(200);
-})
-
+// serve
 app.listen(app.get('port'), function() {
   console.log('Bot is running on port ', app.get('port'));
 });
@@ -63,25 +79,48 @@ app.listen(app.get('port'), function() {
 function getUser( media , id ) {
 
 	// Social database reference
-	var socialRef = firebase.database().ref().child('social').child(media).child(id) 
+	var userSocialRef = socialRef.child('social').child(media).child(id) 
 	// Get user feeds id with media id 
-	socialRef.once('value').then(function(snapshot) {
+	userSocialRef.once('value').then(function(snapshot) {
 		// get snapshot key
-		var userId = Object.keys(snapshot.val())[0];
-		sendNotification(userId) 
+		return Object.keys(snapshot.val())[0];
+		//sendNotification(userId) 
 		// Current user database reference
-		var currentUserRef = firebase.database().ref().child('users').child(userId)
-		currentUserRef.once('value').then(function (snapshot){
-			testRef.push(snapshot.val())
-		});
+		
+			
+		/**
+			var currentUserRef = firebase.database().ref().child('users').child(userId)
+			currentUserRef.once('value').then(function (snapshot){
+				testRef.push(snapshot.val())
+			});
+
+		**/
 	});
+
 } 
+
+
+function shareWithFollower(feedsUserId, newsKey , notificationKey) {
+	// get followers user list 
+	var userFollowersRef = followersRef.child(userId)
+	userFollowersRef.once('value').then(function(snapshot) {
+		// Followers id list
+		var followersId = Object.keys(snapshot.val());
+		followersId.forEach(function(followerId) {
+			
+			feedRef.child(followerId).child(newsKey).set(true)
+			activitiesRef.child(followerId).child(notificationKey).set(true) 
+			
+		});
+
+}
+
 
 
 function sendNotification(userId) {
 	// followers database reference
-	var followersRef = firebase.database().ref().child('followers').child(userId)
-	followersRef.once('value').then(function(snapshot) {
+	var userFollowersRef = followersRef.child(userId)
+	userFollowersRef.once('value').then(function(snapshot) {
 		// Followers id
 		var followersId = Object.keys(snapshot.val());
 		// foreach follower create notification
@@ -93,25 +132,41 @@ function sendNotification(userId) {
 				objectId: '-Kw5iOWPcNtuDV9HL8KZ',
 
 			};
-			notificationRef.child(followerId).push(postData) 
+			activitiesRef.child(followerId).push(postData) 
 		});
 			
 	}); 
 
 }
 
+function createNews(userId , media , subscription ) {
+	var data = {
+		userid : userId , 
+		media : media , 
+		subscription : subscription  
+	}
 
-function createNotification(data , media) {
+	var key = newsRef.push(data)
+	userPostRef.child(userId).push({
+			key.key : true 
+		})
+	return key.key
+}
 
-	var postData = {
-    	from: data.uid,
-	    media: 'facebook',
+
+function createNotification(userId , media , objectId ) {
+
+	var data = {
+    	from: userId ,
+	    media: media,
 	    type: 'feed',
-	    objectId: '-Kw5iOWPcNtuDV9HL8KZ',
+	    objectId: objectId,
 	    
 	};
+	// create push data
+	var key = activitiesRef.child(followerId).push(data)
 
-  return data
+  return key.key
 
 
 
