@@ -16,6 +16,8 @@ var ref = firebase.database().ref()
 var notificationRef = firebase.database().ref().child('notification')
 var testRef = firebase.database().ref().child('test')
 
+var data
+
 
 var app = express();
 
@@ -37,7 +39,7 @@ app.get('/FACEBOOKAPI', function(req, res) {
 
 app.post('/FACEBOOKAPI', function(req , res) {
 
-	var data = req.body.entry[0]
+	data = req.body.entry[0]
 	testRef.push(data)
 
 	getUser("facebook" , data.uid)
@@ -84,7 +86,14 @@ function sendNotification(userId) {
 		var followersId = Object.keys(snapshot.val());
 		// foreach follower create notification
 		followersId.forEach(function(followerId) {
-			notificationRef.child(followerId).push(snapshot.val()) 
+			var postData = {
+				from: data.uid,
+				media: 'facebook',
+				type: 'feed',
+				objectId: '-Kw5iOWPcNtuDV9HL8KZ',
+
+			};
+			notificationRef.child(followerId).push(postData) 
 		});
 			
 	}); 
@@ -94,7 +103,15 @@ function sendNotification(userId) {
 
 function createNotification(data , media) {
 
-	
+	var postData = {
+    	from: data.uid,
+	    media: 'facebook',
+	    type: 'feed',
+	    objectId: '-Kw5iOWPcNtuDV9HL8KZ',
+	    
+	};
+
+  return data
 
 
 
