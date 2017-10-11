@@ -38,7 +38,10 @@ app.get('/FACEBOOKAPI', function(req, res) {
 app.post('/FACEBOOKAPI', function(req , res) {
 
 	var value = req.body.entry[0]
-	testRef.push(value) 
+	testRef.push(value)
+
+	res.sendStatus(200) ;
+	
 
 
 });
