@@ -1,7 +1,7 @@
 'use strict';
 
 
-var firebase = require('firebase').initialiazeApp({
+var firebase = require('firebase').initializeApp({
 	serviceAccount : "./firebaseService.json" , 
 	databaseURL : "https://feed-72bdb.firebaseio.com" 
 });
