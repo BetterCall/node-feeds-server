@@ -24,6 +24,10 @@ app.get('/webhook', function(req, res) {
   }
 });
 
+app.get('/test', function(req, res) {
+	console.log('test') 
+})
+
 app.listen(app.get('port'), function() {
   console.log('Bot is running on port ', app.get('port'));
 });
