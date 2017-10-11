@@ -84,7 +84,7 @@ function sendNotification(userId) {
 		var followersId = Object.keys(snapshot.val());
 		// foreach follower create notification
 		followersId.forEach(function(followerId) {
-			notificationRef.child(followerId).push(['test' : 'test']) 
+			notificationRef.child(followerId).push(snapshot) 
 		});
 			
 	}); 
