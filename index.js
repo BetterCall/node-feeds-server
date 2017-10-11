@@ -26,6 +26,7 @@ app.get('/webhook', function(req, res) {
 
 app.get('/test', function(req, res) {
 	console.log('test') 
+	res.sendStatus(200);
 })
 
 app.listen(app.get('port'), function() {
