@@ -32,7 +32,7 @@ var post = new EventEmitter()
 
 user.on('found' , function(id){
 
-	console.log('ON USER : ' + ID)
+	console.log('ON USER : ' + id)
 
 })
 
