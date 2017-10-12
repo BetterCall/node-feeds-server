@@ -153,8 +153,9 @@ function createNews(userId , media , subscription ) {
 	}
 
 	var keyRef = postsRef.push(data)
+	console.log("KEY REF : " , keyRef.ref)
 	userPostRef.child(userId).child(keyRef.key).set(true)
-	return key.key
+	return keyRef.key
 }
 
 
