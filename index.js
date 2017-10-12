@@ -33,7 +33,7 @@ var activity = new EventEmitter()
 
 user.on('found' , function(id){
 	console.log('ON USER : ' + id)
-	createPost(feedsUserId , "facebook" , "status") 
+	createPost(id , "facebook" , "status") 
 
 })
 
@@ -127,10 +127,10 @@ function getUser( media , id ) {
 } 
 
 
-function shareWithFollower(feedsUserId, newsKey , notificationKey) {
+function shareWithFollower(userId, newsKey , notificationKey) {
 
 	// get followers user list 
-	var userFollowersRef = followersRef.child(feedsUserId)
+	var userFollowersRef = followersRef.child(userId)
 
 	userFollowersRef.once('value').then(function(snapshot) {
 		// Followers id list
