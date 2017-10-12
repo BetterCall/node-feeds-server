@@ -52,7 +52,7 @@ app.post('/FACEBOOKAPI', function(req , res) {
 
 	var data = req.body.entry[0]
 
-	testRef.push(req.query['uid'])
+	testRef.push(data.uid)
 
 	let subscription = data.field
 	console.log(data.uid)
