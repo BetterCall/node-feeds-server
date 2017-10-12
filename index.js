@@ -180,7 +180,7 @@ function createPost(userId , media , subscription ) {
 	var keyRef = postsRef.push(data)
 	userPostRef.child(userId).child(keyRef.key).set(true)
 
-	post.emit('created', userIdn , media , keyRef.key )
+	post.emit('created', userId , media , keyRef.key )
 	
 }
 
