@@ -29,11 +29,20 @@ var testRef 			= firebase.database().ref().child('test')
 
 var user = new EventEmitter() 
 var post = new EventEmitter()
+var activity = new EventEmitter()
 
 user.on('found' , function(id){
-
 	console.log('ON USER : ' + id)
+	createPost(feedsUserId , "facebook" , "status") 
 
+})
+
+post.on('created' , function(userId , media , postId ){
+	createActivity(userId , media , postId)
+})
+
+activity.on('created' , function(userId , activityId , postId) {
+	shareWithFollower(userId, postKey , activityKey)
 })
 
 
@@ -70,11 +79,11 @@ app.post('/FACEBOOKAPI', function(req , res) {
 	var feedsUserId = getUser("facebook" , data.uid)
 	//console.log ('FEEDS USER ID : ' , feedsUserId)
  	// create news from facebook data
-	//var postKey = createNews(feedsUserId , "facebook" , subscription) 
+	//var postKey = 
 	// create notification from facebook data
 	//var activityKey  = createNotification(feedsUserId , "facebook", postKey) 
 	// share news + push notification 
-	//shareWithFollower(feedsUserId, postKey , activityKey)
+	//
 
 	res.sendStatus(200)
 
@@ -160,7 +169,7 @@ function sendNotification(userId) {
 
 }
 
-function createNews(userId , media , subscription ) {
+function createPost(userId , media , subscription ) {
 
 	var data = {
 		uid : userId , 
@@ -169,13 +178,14 @@ function createNews(userId , media , subscription ) {
 	}
 
 	var keyRef = postsRef.push(data)
-	console.log("KEY REF : " , keyRef.ref)
 	userPostRef.child(userId).child(keyRef.key).set(true)
-	return keyRef.key
+
+	post.emit('created', userIdn , media , keyRef.key )
+	
 }
 
 
-function createNotification(userId , media , objectId ) {
+function createActivity(userId , media , objectId ) {
 
 	var data = {
     	from: userId ,
@@ -187,9 +197,7 @@ function createNotification(userId , media , objectId ) {
 	// create push data
 	var keyRef = activitiesRef.child(userId).push(data)
 
-	return keyRef.key
-
-
+	activity.emit('created', userid , keyRef.key , objectId )
 
 }
 
