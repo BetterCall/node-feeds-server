@@ -62,7 +62,7 @@ app.post('/FACEBOOKAPI', function(req , res) {
  	// create news from facebook data
 	var postKey = createNews(feedsUserId , "facebook" , subscription) 
 	// create notification from facebook data
-	var activityKey  = createNotification(userId , "facebook", postKey) 
+	var activityKey  = createNotification(feedsUserId , "facebook", postKey) 
 	// share news + push notification 
 	shareWithFollower(feedsUserId, postKey , activityKey)
 
