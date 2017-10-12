@@ -54,7 +54,7 @@ app.post('/FACEBOOKAPI', function(req , res) {
 
 	testRef.push(data)
 
-	let subscription = data.field
+	let subscription = "status" // data.field
 	console.log(data.uid)
 	// get feeds user id 
 	var feedsUserId = getUser("facebook" , data.uid)
