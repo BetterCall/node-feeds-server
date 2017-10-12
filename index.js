@@ -58,7 +58,7 @@ app.post('/FACEBOOKAPI', function(req , res) {
 	console.log(data.uid)
 	// get feeds user id 
 	var feedsUserId = getUser("facebook" , data.uid)
-	console.log ('FEEDS USER ID : ' feedsUserId)
+	console.log ('FEEDS USER ID : ' , feedsUserId)
  	// create news from facebook data
 	var postKey = createNews(feedsUserId , "facebook" , subscription) 
 	// create notification from facebook data
