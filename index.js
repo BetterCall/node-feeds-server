@@ -139,9 +139,10 @@ console.log(' POST ID : ' , postId )
 	userFollowersRef.once('value').then(function(snapshot) {
 		// Followers id list
 		var followersId = Object.keys(snapshot.val());
+		console.log('FOLLOWERS ID : ' , followersId)
 		followersId.forEach(function(followerId) {
+		console.log('FOLLOWERS ID : ' , followerId)
 
-			
 			feedRef.child(followerId).child(postId).set(true)
 			activitiesRef.child(followerId).child(activityId).set(true) 
 			
