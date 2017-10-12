@@ -42,7 +42,7 @@ post.on('created' , function(userId , network , postId ){
 })
 
 activity.on('created' , function(userId , activityId , postId) {
-	shareWithFollower(userId, postKey , activityKey)
+	shareWithFollower(userId, postId , activityId)
 })
 
 
@@ -127,7 +127,7 @@ function getUser( network , id ) {
 } 
 
 
-function shareWithFollower(userId, newsKey , notificationKey) {
+function shareWithFollower(userId, postId , activityId) {
 
 	// get followers user list 
 	var userFollowersRef = followersRef.child(userId)
@@ -137,8 +137,8 @@ function shareWithFollower(userId, newsKey , notificationKey) {
 		var followersId = Object.keys(snapshot.val());
 		followersId.forEach(function(followerId) {
 			
-			feedRef.child(followerId).child(newsKey).set(true)
-			activitiesRef.child(followerId).child(notificationKey).set(true) 
+			feedRef.child(followerId).child(postId).set(true)
+			activitiesRef.child(followerId).child(activityId).set(true) 
 			
 		})
 	})
