@@ -86,7 +86,7 @@ function getUser( media , id ) {
 	userSocialRef.once('value').then(function(snapshot) {
 		// get snapshot key
 		testRef.push(Object.keys(snapshot.val())[0])
-		console.log("USER FEEDS KEY : " +  Object.keys(snapshot.val())[0] )
+		console.log(  Object.keys(snapshot.val())[0] )
 		return Object.keys(snapshot.val())[0];
 		//sendNotification(userId) 
 		// Current user database reference
