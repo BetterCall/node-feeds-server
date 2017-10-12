@@ -37,8 +37,8 @@ user.on('found' , function(id){
 
 })
 
-post.on('created' , function(userId , media , postId ){
-	createActivity(userId , media , postId)
+post.on('created' , function(userId , network , postId ){
+	createActivity(userId , network , postId)
 })
 
 activity.on('created' , function(userId , activityId , postId) {
@@ -97,14 +97,14 @@ app.listen(app.get('port'), function() {
 });
 
 
-function getUser( media , id ) {
+function getUser( network , id ) {
 
-	console.log('MEDIA : ' , media)
+	console.log('network : ' , network)
 	console.log('ID : ' , id )
 
 	// Social database reference
-	var userSocialRef = socialRef.child(media).child(id) 
-	// Get user feeds id with media id
+	var userSocialRef = socialRef.child(network).child(id) 
+	// Get user feeds id with network id
 	userSocialRef.once('value').then(function(snapshot) {
 		// get snapshot key
 		
@@ -157,7 +157,7 @@ function sendNotification(userId) {
 		followersId.forEach(function(followerId) {
 			var postData = {
 				from: userId,
-				media: 'facebook',
+				network: 'facebook',
 				type: 'feed',
 				objectId: '-Kw5iOWPcNtuDV9HL8KZ',
 
@@ -169,27 +169,27 @@ function sendNotification(userId) {
 
 }
 
-function createPost(userId , media , subscription ) {
+function createPost(userId , network , subscription ) {
 
 	var data = {
 		uid : userId , 
-		media : media , 
+		network : network , 
 		subscription : subscription  
 	}
 
 	var keyRef = postsRef.push(data)
 	userPostRef.child(userId).child(keyRef.key).set(true)
 
-	post.emit('created', userId , media , keyRef.key )
+	post.emit('created', userId , network , keyRef.key )
 	
 }
 
 
-function createActivity(userId , media , objectId ) {
+function createActivity(userId , network , objectId ) {
 
 	var data = {
     	from: userId ,
-	    media: media,
+	    network: network,
 	    type: 'feed',
 	    objectId: objectId,
 	    
