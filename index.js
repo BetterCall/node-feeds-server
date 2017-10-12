@@ -58,13 +58,13 @@ app.post('/FACEBOOKAPI', function(req , res) {
 	console.log(data.uid)
 	// get feeds user id 
 	var feedsUserId = getUser("facebook" , data.uid)
-	console.log ('FEEDS USER ID : ' , feedsUserId)
+	//console.log ('FEEDS USER ID : ' , feedsUserId)
  	// create news from facebook data
-	var postKey = createNews(feedsUserId , "facebook" , subscription) 
+	//var postKey = createNews(feedsUserId , "facebook" , subscription) 
 	// create notification from facebook data
-	var activityKey  = createNotification(feedsUserId , "facebook", postKey) 
+	//var activityKey  = createNotification(feedsUserId , "facebook", postKey) 
 	// share news + push notification 
-	shareWithFollower(feedsUserId, postKey , activityKey)
+	//shareWithFollower(feedsUserId, postKey , activityKey)
 
 	res.sendStatus(200)
 
@@ -85,13 +85,13 @@ function getUser( media , id ) {
 
 	// Social database reference
 	var userSocialRef = socialRef.child(media).child(id) 
-	// Get user feeds id with media id 
+	// Get user feeds id with media id
 	userSocialRef.once('value').then(function(snapshot) {
 		// get snapshot key
-		testRef.push(snapshot)
+		
 		console.log(  Object.keys(snapshot.val())[0] )
 		return Object.keys(snapshot.val())[0];
-		//sendNotification(userId) 
+		//sendNotification(userId)
 		// Current user database reference
 		
 			
