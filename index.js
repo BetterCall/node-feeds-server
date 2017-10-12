@@ -84,7 +84,7 @@ function getUser( media , id ) {
 	console.log('ID : ' , id )
 
 	// Social database reference
-	var userSocialRef = socialRef.child('social').child(media).child(id) 
+	var userSocialRef = socialRef.child(media).child(id) 
 	// Get user feeds id with media id 
 	userSocialRef.once('value').then(function(snapshot) {
 		// get snapshot key
