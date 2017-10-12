@@ -140,7 +140,7 @@ function shareWithFollower(userId, postId , activityId) {
 		var followersId = Object.keys(snapshot.val());
 		followersId.forEach(function(followerId) {
 
-			
+			console.log(' POST ID : ' , postId )
 			feedRef.child(followerId).child(postId).set(true)
 			activitiesRef.child(followerId).child(activityId).set(true) 
 			
