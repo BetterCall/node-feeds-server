@@ -129,6 +129,9 @@ function getUser( network , id ) {
 
 function shareWithFollower(userId, postId , activityId) {
 
+	// add post to user feed
+	feedRef.child(userId).child(postId).set(true)
+
 	// get followers user list 
 	var userFollowersRef = followersRef.child(userId)
 
@@ -136,6 +139,7 @@ function shareWithFollower(userId, postId , activityId) {
 		// Followers id list
 		var followersId = Object.keys(snapshot.val());
 		followersId.forEach(function(followerId) {
+
 			
 			feedRef.child(followerId).child(postId).set(true)
 			activitiesRef.child(followerId).child(activityId).set(true) 
