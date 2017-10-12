@@ -169,9 +169,9 @@ function createNotification(userId , media , objectId ) {
 	    
 	};
 	// create push data
-	var key = activitiesRef.child(followerId).push(data)
+	var keyRef = activitiesRef.child(userId).push(data)
 
-  return key.key
+	return keyRef.key
 
 
 
