@@ -202,7 +202,7 @@ function createActivity(userId , network , objectId ) {
 	// create push data
 	var keyRef = activitiesRef.child(userId).push(data)
 
-	activity.emit('created', userid , keyRef.key , objectId )
+	activity.emit('created', userId , keyRef.key , objectId )
 
 }
 
