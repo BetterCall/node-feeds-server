@@ -11,6 +11,7 @@ const config 		= require('config')
 const express		= require('express')
 const http 			= require('http')
 const request 		= require('request')
+const EventEmitter  = require('events').EventEmitter
 
 // Database References
 var ref 				= firebase.database().ref()
@@ -25,6 +26,15 @@ var userFollowersRef	= firebase.database().ref().child('followers')
 
 var activitiesRef 	    = firebase.database().ref().child('activities')
 var testRef 			= firebase.database().ref().child('test')
+
+var user = new EventEmitter() 
+var post = new EventEmitter()
+
+user.on('found' , function(id){
+
+	console.log('ON USER : ' + ID)
+
+})
 
 
 var app = express();
@@ -90,6 +100,7 @@ function getUser( media , id ) {
 		// get snapshot key
 		
 		console.log(  Object.keys(snapshot.val())[0] )
+		user.emit('found' , Object.keys(snapshot.val())[0] )
 		return Object.keys(snapshot.val())[0];
 		//sendNotification(userId)
 		// Current user database reference
