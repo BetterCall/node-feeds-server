@@ -80,6 +80,9 @@ app.listen(app.get('port'), function() {
 
 function getUser( media , id ) {
 
+	console.log('MEDIA : ' , media)
+	console.log('ID : ' , id )
+
 	// Social database reference
 	var userSocialRef = socialRef.child('social').child(media).child(id) 
 	// Get user feeds id with media id 
