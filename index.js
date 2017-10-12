@@ -22,7 +22,7 @@ var postsRef 			= firebase.database().ref().child('posts')
 var userPostRef			= firebase.database().ref().child('user_post')
 
 var socialRef 			= firebase.database().ref().child('social') 
-var userFollowersRef	= firebase.database().ref().child('followers')
+var followersRef	= firebase.database().ref().child('followers')
 
 var activitiesRef 	    = firebase.database().ref().child('activities')
 var testRef 			= firebase.database().ref().child('test')
@@ -152,28 +152,6 @@ console.log(' POST ID : ' , postId )
 }
 
 
-
-function sendNotification(userId) {
-	// followers database reference
-	var userFollowersRef = followersRef.child(userId)
-	userFollowersRef.once('value').then(function(snapshot) {
-		// Followers id
-		var followersId = Object.keys(snapshot.val());
-		// foreach follower create notification
-		followersId.forEach(function(followerId) {
-			var postData = {
-				from: userId,
-				network: 'facebook',
-				type: 'feed',
-				objectId: '-Kw5iOWPcNtuDV9HL8KZ',
-
-			};
-			activitiesRef.child(followerId).push(postData) 
-		});
-			
-	}); 
-
-}
 
 function createPost(userId , network , subscription ) {
 
