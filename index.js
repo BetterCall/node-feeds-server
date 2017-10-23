@@ -6,6 +6,16 @@ var firebase = require('firebase').initializeApp({
 	databaseURL : "https://feed-72bdb.firebaseio.com" 
 });
 
+var ig = require('instagram-node').instagram();
+ 
+// Every call to `ig.use()` overrides the `client_id/client_secret` 
+// or `access_token` previously entered if they exist. 
+
+ig.use({ client_id: 'd3a872612be54fec9231d181d68035b6',
+         client_secret: '028422d9c50e4b17aa638af309e8b1f6' });
+
+
+
 const bodyParser 	= require('body-parser')
 const config 		= require('config')
 const express		= require('express')
@@ -41,8 +51,8 @@ post.on('created' , function(userId , network , postId ){
 	createActivity(userId , network , postId)
 })
 
-activity.on('created' , function(userId , activityId , postId) {
-	shareWithFollower(userId, activityId , postId)
+activity.on('created' , function(userId , activity , postId) {
+	shareWithFollower(userId, activity , postId)
 })
 
 
@@ -127,7 +137,7 @@ function getUser( network , id ) {
 } 
 
 
-function shareWithFollower(userId, activityId , postId) {
+function shareWithFollower(userId, activity , postId) {
 
 console.log(' POST ID : ' , postId )
 	// add post to user feed
@@ -144,7 +154,7 @@ console.log(' POST ID : ' , postId )
 		console.log('FOLLOWERS ID : ' , followerId)
 
 			feedRef.child(followerId).child(postId).set(true)
-			activitiesRef.child(followerId).child(activityId).set(true) 
+			activitiesRef.child(followerId).push(activity)
 			
 		})
 	})
@@ -181,7 +191,7 @@ function createActivity(userId , network , objectId ) {
 	// create push data
 	var keyRef = activitiesRef.child(userId).push(data)
 
-	activity.emit('created', userId , keyRef.key , objectId )
+	activity.emit('created', userId , data , objectId )
 
 }
 
