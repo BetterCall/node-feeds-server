@@ -15,7 +15,6 @@ ig.use({ client_id: 'd3a872612be54fec9231d181d68035b6',
          client_secret: '028422d9c50e4b17aa638af309e8b1f6' });
 
 
-
 const bodyParser 	= require('body-parser')
 const config 		= require('config')
 const express		= require('express')
@@ -142,6 +141,7 @@ function shareWithFollower(userId, activity , postId) {
 console.log(' POST ID : ' , postId )
 	// add post to user feed
 	feedRef.child(userId).child(postId).set(true)
+	userPostRef.child(userId).child(postId).set(true)
 
 	// get followers user list 
 	var userFollowersRef = followersRef.child(userId)
